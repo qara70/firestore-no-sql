@@ -1,5 +1,5 @@
 import { Entity } from '../__shared__/entity';
-import UserName from './UserName';
+import UserName from './user-name';
 
 export interface IUserProps {
   name: UserName;
