@@ -1,0 +1,24 @@
+@startuml
+
+hide circle
+
+entity "User" {
+  *userId
+  *userName
+}
+
+entity "Question" {
+  *questionId
+  *questionTitle
+}
+
+entity "QuestionStatus" {
+  *questionStatusId
+  *complete
+  *inComplete
+}
+
+User||--{Question
+Question}--{QuestionStatus
+
+@enduml
