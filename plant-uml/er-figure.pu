@@ -3,22 +3,24 @@
 hide circle
 
 entity "User" {
-  *userId
-  *userName
+  *user_id
+  *user_name
 }
 
 entity "Question" {
-  *questionId
-  *questionTitle
+  *question_id
+  *user_id
+  *question_title
 }
 
 entity "QuestionStatus" {
-  *questionStatusId
+  *question_status_id
+  *question_id
   *complete
-  *inComplete
+  *in_complete
 }
 
 User||--{Question
-Question}--{QuestionStatus
+Question||--||QuestionStatus
 
 @enduml
