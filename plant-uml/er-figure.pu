@@ -10,17 +10,16 @@ entity "User" {
 entity "Question" {
   *question_id
   *user_id
+  *question_status_id
   *question_title
 }
 
 entity "QuestionStatus" {
   *question_status_id
-  *question_id
-  *complete
-  *in_complete
+  *status
 }
 
-User||--{Question
+User}--{Question
 Question||--||QuestionStatus
 
 @enduml
