@@ -9,4 +9,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Put()
+  updateStatus(@Body() updateStatusDto: UpdateStatusDto) {
+    this.appService.updateStatus(updateStatusDto);
+    return 'Success update status.';
+  }
+
 }
