@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { AppService } from './app.service';
+import { UpdateStatusDto } from './dto/update-status-dto';
 
 @Controller()
 export class AppController {
@@ -16,4 +17,8 @@ export class AppController {
     return 'Success update status.';
   }
 
+  @Get('/user')
+  getStatusList() {
+    return this.appService.getUserStatusList();
+  }
 }
