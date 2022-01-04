@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UpdateQuestionDto } from './dto/update-question-dto';
 import { UpdateStatusDto } from './dto/update-status-dto';
 import { db } from './lib/firebase-firestore';
 
@@ -88,6 +89,26 @@ export class AppService {
     // 先行で作成したupdateStatus()ではコレクションから取得する形
     // そうなると、コレクションとquestion001フィールドと2つのquestionsに関するデータの持ち形になるけどあってるの？？
     // 結果：ぜんぶコレクションでデータを取得する形にした。ただ、コールバック多用で可読性低い
+  }
+
+  async updateQuestion(updateQuestion: UpdateQuestionDto): Promise<void> {
+    const usersDb = db.collection('users');
+    usersDb.get().then((userDocs) =>
+      userDocs.docs.forEach((userDoc) => {
+        const questionDb = usersDb
+          .doc(userDoc.id)
+          .collection('questions')
+          .doc(updateQuestion.question_id);
+
+        questionDb.get().then((question) => {
+          if (question.exists) {
+            questionDb.update({
+              question_title: updateQuestion.question_title,
+            });
+          }
+        });
+      }),
+    );
   }
 
   private getQuestionDb(user_id: string) {

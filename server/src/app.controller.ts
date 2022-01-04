@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UpdateStatusDto } from './dto/update-status-dto';
+import { UpdateQuestionDto } from './dto/update-question-dto';
 
 @Controller()
 export class AppController {
@@ -20,5 +21,11 @@ export class AppController {
   @Get('/user')
   getStatusList() {
     return this.appService.getUserStatusList();
+  }
+
+  @Put('/question')
+  updateQuestion(@Body() updateQuestionDto: UpdateQuestionDto) {
+    this.appService.updateQuestion(updateQuestionDto);
+    return 'Success update question.';
   }
 }
