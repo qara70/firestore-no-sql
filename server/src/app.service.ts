@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { DeleteQuestionDto } from './dto/delete-question-dto';
 import { UpdateQuestionDto } from './dto/update-question-dto';
 import { UpdateStatusDto } from './dto/update-status-dto';
 import { db } from './lib/firebase-firestore';
@@ -109,6 +110,33 @@ export class AppService {
         });
       }),
     );
+  }
+
+  async deleteQuestion(deleteQuestionDto: DeleteQuestionDto): Promise<void> {
+    const usersDb = db.collection('users');
+    usersDb.get().then((userDocs) => {
+      userDocs.docs.forEach((userDoc) => {
+        const questionDb = usersDb
+          .doc(userDoc.id)
+          .collection('questions')
+          .doc(deleteQuestionDto.question_id);
+
+        questionDb.get().then((question) => {
+          if (question.exists) {
+            questionDb.delete();
+          }
+        });
+
+        const questionStatusDb = questionDb
+          .collection('question_status')
+          .doc('complete');
+        questionStatusDb.get().then((questionStatus) => {
+          if (questionStatus.exists) {
+            questionStatusDb.delete();
+          }
+        });
+      });
+    });
   }
 
   private getQuestionDb(user_id: string) {
