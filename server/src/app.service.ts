@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { UpdateStatusDto } from './dto/update-status-dto';
 import { db } from './lib/firebase-firestore';
 
-interface UserQuestionStatusProps {
+export interface UserQuestionStatusProps {
   id: string;
   name: string;
-  question: Question[];
+  question: Question;
 }
 
 type Question = {
@@ -43,7 +43,7 @@ export class AppService {
   // 案①questionsは、参照の形にしないで、ユーザーに紐付ける形にするか？
   async getUserStatusList() {
     const usersDb = db.collection('users');
-    const userQuestions = [];
+    const userQuestions: UserQuestionStatusProps[] = [];
 
     const datas = () => {
       return usersDb.get().then((usersRecord) => {
@@ -62,8 +62,8 @@ export class AppService {
                 .then((statuses) => {
                   return statuses.docs.map((status) => {
                     return {
-                      id: userDoc.data().user_id,
-                      name: userDoc.data().user_name,
+                      id: userDoc.data().user_id as string,
+                      name: userDoc.data().user_name as string,
                       question: {
                         id: quest.data().question_id as string,
                         title: quest.data().question_title as string,

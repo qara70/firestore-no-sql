@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UpdateStatusDto } from './dto/update-status-dto';
 
